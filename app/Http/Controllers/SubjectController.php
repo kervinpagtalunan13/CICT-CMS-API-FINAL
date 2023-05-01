@@ -58,7 +58,8 @@ class SubjectController extends Controller
             $subject->update();
         }
 
-        return response()->json($subject);
+
+        return response()->json(Subject::with('department')->find($subject->id));
         // return response()->json($request->all());
     }
 

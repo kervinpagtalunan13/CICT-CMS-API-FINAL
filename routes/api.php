@@ -25,8 +25,6 @@ Route::post('reset-password', [AuthController::class, 'resetPassword']);
 Route::get('content/logo/{logo}', [ContentController::class, 'getLogo']);
 Route::get('subjectsGetSyllabus/{file}', [SubjectController::class, 'getSyllabus']);
 
-// Route::get('electiveSubjects', [SubjectController::class, 'electiveSubjectsList']);
-// Route::patch('electiveSubjects/{id}', [SubjectController::class, 'editElectiveSubject']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('contents', [ContentController::class, 'getContent']);
@@ -38,7 +36,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('content-init', [ContentController::class, 'initContent']);
 
     Route::post('subjectsUpdateSyllabus/{id}', [SubjectController::class, 'updateSyllabus']);
-    // Route::post('subjectsUpdateSyllabus/{id}', [SubjectController::class, 'updateSyllabus']);
     Route::post('subjects/update/{id}', [SubjectController::class, 'updateSubject']);
     Route::apiResource('subjects', SubjectController::class);
     Route::apiResource('electiveSubjects', ElectiveSubjectController::class);

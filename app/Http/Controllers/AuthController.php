@@ -69,7 +69,7 @@ class AuthController extends Controller
     }
 
 
-
+    // C:\Users\kyed\Desktop\Accenture Project\cict-cms-api-v2\public
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);

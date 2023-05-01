@@ -112,7 +112,7 @@ class ProfileController extends Controller
         }
 
         $fileContents = file_get_contents($filePath);
-
+        
         return response($fileContents)
             ->header('Content-Type', 'image/jpeg');
         // ->header('Content-Disposition', 'inline; filename="' . '1-1680422701-WIN_20230308_12_44_42_Pro.jpg' . '"');

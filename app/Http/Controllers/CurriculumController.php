@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateRevisionRequest;
 use App\Http\Resources\CurriculumResource;
 use App\Models\CurriculumOld;
 use App\Models\CurriculumRevision;
+use Database\Factories\CurriculumFactory;
 use Illuminate\Http\Request;
 
 class CurriculumController extends Controller
@@ -21,7 +22,7 @@ class CurriculumController extends Controller
     public function index()
     {
         // $curriculums = Curriculum::all();
-        $curriculums = Curriculum::with('user.profile', 'department')->orderByDesc('created_at')->get();
+        $curriculums = Curriculum::with('user.profile', 'department', 'approvedBy.profile')->orderByDesc('created_at')->get();
         $curriculums = $curriculums->map(function ($cur) {
             $cur->is_new = $cur->created_at->diffInDays(now()) < 7;
             return $cur;
@@ -31,7 +32,7 @@ class CurriculumController extends Controller
 
     public function curriculumRevisionList()
     {
-        $revisions = CurriculumRevision::with('curriculum.department', 'user.profile')->orderByDesc('created_at')->get();
+        $revisions = CurriculumRevision::with('curriculum.department', 'user.profile', 'approvedBy.profile')->orderByDesc('created_at')->get();
 
         $revisions = $revisions->map(function ($rev) {
             $rev->is_new = $rev->created_at->diffInDays(now()) < 7;
@@ -40,6 +41,13 @@ class CurriculumController extends Controller
 
         return $revisions;
         // return response()->json($curriculums);
+    }
+
+    public function oldRevisionList()
+    {
+        $oldRevisions = CurriculumOld::orderBy('created_at', 'desc')->get();
+
+        return $oldRevisions;
     }
 
     public function curriculumRevision($id)
@@ -65,8 +73,10 @@ class CurriculumController extends Controller
             if (!$curriclum) {
                 return response()->json(['message' => 'cannot find pending curriclum'], 404);
             }
-            $curriclum->update(['status' => 'a']);
-
+            $curriclum->update([
+                'status' => 'a',
+                'approve_by' => $request->user()->id
+            ]);
             return response()->json(['message' => 'success', 'curriclum' => $curriclum]);
         }
         return response()->json(['message' => 'you are not authorized'], 403);
@@ -99,18 +109,21 @@ class CurriculumController extends Controller
             CurriculumOld::create([
                 'curriculum_id' => $refereceCurriculum->id,
                 'metadata' => $refereceCurriculum->metadata,
-                'version' => $refereceCurriculum->version
+                'version' => $refereceCurriculum->version,
+                'increment_version' => $curriculum->increment_version
             ]);
 
+            // $asd = $refereceCurriculum->version + .1;
             $refereceCurriculum->metadata = $curriculum->metadata;
-            $refereceCurriculum->version = $curriculum->version;
+            $refereceCurriculum->version = $curriculum->increment_version ? $refereceCurriculum->version  + .1 : $refereceCurriculum->version;
             $refereceCurriculum->save();
 
-            $curriculum->update(['status' => 'a']);
-            // $curriculum->update(['status' => 'a', 'approve_by' => $this->user()->id]);
+            $curriculum->update([
+                'status' => 'a',
+                'approve_by' => $request->user()->id
+            ]);
 
-
-            return response()->json(['message' => 'success']);
+            return response()->json(CurriculumRevision::with('approvedBy.profile')->find($curriculum->id));
         }
         return response()->json(['message' => 'you are not authorized'], 403);
     }
@@ -121,6 +134,7 @@ class CurriculumController extends Controller
         // $curriculum->update($request->all());
         $curriculum->update([
             'metadata' => $request->metadata,
+            'increment_version' => $request->increment_version
         ]);
         return response()->json($curriculum);
     }

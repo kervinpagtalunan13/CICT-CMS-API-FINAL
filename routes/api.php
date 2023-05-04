@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('curriculums/approveRevision/{id}', [CurriculumController::class, 'approveRevision']);
     Route::get('curriculums/revisions', [CurriculumController::class, 'curriculumRevisionList']);
     Route::get('curriculums/revisions/{id}', [CurriculumController::class, 'curriculumRevision']);
+    Route::get('curriculums/old-revisions', [CurriculumController::class, 'oldRevisionList']);
     Route::apiResource('curriculums', CurriculumController::class);
 
     Route::apiResource('comments', CommentController::class);

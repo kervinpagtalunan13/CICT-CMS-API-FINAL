@@ -38,6 +38,10 @@ class Curriculum extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approve_by');
+    }
 
     public function comments()
     {

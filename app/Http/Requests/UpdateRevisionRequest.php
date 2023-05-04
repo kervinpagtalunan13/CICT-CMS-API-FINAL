@@ -36,11 +36,11 @@ class UpdateRevisionRequest extends FormRequest
             'version' => ['sometimes', 'required'],
         ];
     }
-    
+
     public function prepareForValidation()
     {
         $this->merge([
-            'metadata' => json_encode($this->subjects)
+            'metadata' => json_encode($this->subjects),
         ]);
     }
 }

@@ -16,7 +16,8 @@ class Curriculum extends Model
         'department_id',
         'version',
         'status',
-        'metadata'
+        'metadata',
+        'approve_by'
     ];
 
     public function department()

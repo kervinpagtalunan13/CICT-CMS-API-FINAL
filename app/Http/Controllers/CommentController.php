@@ -13,7 +13,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::with('user.profile')->orderByDesc('updated_at')->get();
+        $comments = Comment::with('user.profile', 'curriculum.department', 'curriculumRevision.department')->orderByDesc('updated_at')->get();
         return response()->json($comments);
     }
 

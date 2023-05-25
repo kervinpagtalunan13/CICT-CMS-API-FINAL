@@ -23,11 +23,11 @@ class Comment extends Model
 
     public function curriculum()
     {
-        return $this->belongsTo(Curriculum::class);
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
 
     public function curriculumRevision()
     {
-        return $this->belongsTo(CurriculumRevision::class);
+        return $this->belongsTo(CurriculumRevision::class, 'curriculum_revision_id');
     }
 }

@@ -53,7 +53,7 @@ class AuthController extends Controller
             'department_id' => $request->departmentId,
         ]);
 
-        $user = User::with('profile', 'department')->find($user->id)->get();
+        $user = User::with('profile', 'department')->find($user->id);
         return response()->json(['message' => 'user registration success', 'user' => $user]);
     }
 

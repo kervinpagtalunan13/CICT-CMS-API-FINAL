@@ -43,7 +43,10 @@ class SubjectController extends Controller
             'description' => $request->description,
             'is_elective' => $request->is_elective,
             'user_id' => $request->user()->id,
-            'department_id' => $request->department_id
+            'department_id' => $request->department_id,
+            'lec_units' => $request->lec_units,
+            'lab_units' => $request->lab_units,
+            'hrs_per_week' => $request->hrs_per_week,
         ]);
 
         if (!$subject)
@@ -57,7 +60,6 @@ class SubjectController extends Controller
             $subject->syllabus_path = $fileName;
             $subject->update();
         }
-
 
         return response()->json(Subject::with('department')->find($subject->id));
         // return response()->json($request->all());

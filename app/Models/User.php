@@ -49,7 +49,8 @@ class User extends Authenticatable
         'username',
         'role',
         'status',
-        'department_id'
+        'department_id',
+        'is_approved'
     ];
 
     /**

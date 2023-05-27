@@ -18,9 +18,9 @@ class UpdateCommentRequest extends FormRequest
         if (!$comment) {
             return false;
         }
-
         return $this->user()->tokenCan('can_comment') && $id == $comment->user_id;
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -30,7 +30,7 @@ class UpdateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => ['required'],
+            // 'body' => ['required'],
         ];
     }
 

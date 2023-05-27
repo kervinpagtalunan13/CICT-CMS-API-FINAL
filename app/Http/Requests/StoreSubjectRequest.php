@@ -26,7 +26,11 @@ class StoreSubjectRequest extends FormRequest
             'subjectCode' => ['required', 'unique:subjects,subject_code'],
             'description' => ['required', 'unique:subjects,description'],
             'syllabus' => (!$this->is_elective) ? 'required|file|mimes:pdf' : '',
-            'is_elective' => (!!$this->is_elective) ? 'required|unique:subjects' : ''
+            'is_elective' => (!!$this->is_elective) ? 'required|unique:subjects' : '',
+            'lec_units' => 'required|integer|min:1|max:5',
+            'lab_units' => 'required|integer|min:1|max:5',
+            'total_units' => 'required|integer|max:5',
+            'hrs_per_week' => 'required|integer|min:1|max:5',
         ];
 
         // if ($this->hasFile('image')) {
@@ -34,6 +38,13 @@ class StoreSubjectRequest extends FormRequest
         // }
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'total_units.max' => 'sum of lectures and lab units must not exceed 5 units',
+        ];
     }
 
     public function prepareForValidation()

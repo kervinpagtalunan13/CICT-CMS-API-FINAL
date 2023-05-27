@@ -13,7 +13,8 @@ class Comment extends Model
         'body',
         'user_id',
         'curriculum_id',
-        'curriculum_revision_id'
+        'curriculum_revision_id',
+        'status'
     ];
 
     public function user()

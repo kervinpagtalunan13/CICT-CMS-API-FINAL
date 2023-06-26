@@ -16,7 +16,8 @@ class Curriculum extends Model
         'department_id',
         'version',
         'status',
-        'metadata'
+        'metadata',
+        'approve_by'
     ];
 
     public function department()
@@ -37,6 +38,10 @@ class Curriculum extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approve_by');
     }
 
     public function comments()

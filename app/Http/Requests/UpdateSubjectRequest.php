@@ -23,7 +23,18 @@ class UpdateSubjectRequest extends FormRequest
     {
         return [
             'description' => 'sometimes|required|string|unique:subjects,description',
-            'syllabus' => 'sometimes|required|file|mimes:pdf'
+            'syllabus' => 'sometimes|required|file|mimes:pdf',
+            'lec_units' => 'required|integer|min:1|max:5',
+            'lab_units' => 'required|integer|min:1|max:5',
+            'total_units' => 'required|integer|max:5',
+            'hrs_per_week' => 'required|integer|min:1|max:5',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'total_units.max' => 'sum of lecture and lab units must not exceed 5 units',
         ];
     }
 

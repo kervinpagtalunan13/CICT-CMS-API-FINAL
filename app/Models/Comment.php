@@ -13,7 +13,8 @@ class Comment extends Model
         'body',
         'user_id',
         'curriculum_id',
-        'curriculum_revision_id'
+        'curriculum_revision_id',
+        'status'
     ];
 
     public function user()
@@ -23,11 +24,11 @@ class Comment extends Model
 
     public function curriculum()
     {
-        return $this->belongsTo(Curriculum::class);
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
 
     public function curriculumRevision()
     {
-        return $this->belongsTo(CurriculumRevision::class);
+        return $this->belongsTo(CurriculumRevision::class, 'curriculum_revision_id');
     }
 }

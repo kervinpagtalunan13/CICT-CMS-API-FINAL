@@ -12,7 +12,8 @@ class CurriculumOld extends Model
     protected $fillable = [
         'version',
         'metadata',
-        'curriculum_id'
+        'curriculum_id',
+        'increment_version'
     ];
 
     public function curriculum()

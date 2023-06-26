@@ -24,7 +24,8 @@ Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
 Route::get('content/logo/{logo}', [ContentController::class, 'getLogo']);
 Route::get('subjectsGetSyllabus/{file}', [SubjectController::class, 'getSyllabus']);
-
+Route::post('register', [AuthController::class, 'register']);
+Route::get('departmentsList', [DepartmentController::class, 'index']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('contents', [ContentController::class, 'getContent']);
@@ -52,11 +53,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('curriculums/approveRevision/{id}', [CurriculumController::class, 'approveRevision']);
     Route::get('curriculums/revisions', [CurriculumController::class, 'curriculumRevisionList']);
     Route::get('curriculums/revisions/{id}', [CurriculumController::class, 'curriculumRevision']);
+    Route::get('curriculums/old-revisions', [CurriculumController::class, 'oldRevisionList']);
     Route::apiResource('curriculums', CurriculumController::class);
 
     Route::apiResource('comments', CommentController::class);
 
-    Route::post('register', [AuthController::class, 'register']);
     Route::post('getUser', [AuthController::class, 'getUser']);
     Route::post('logout', [AuthController::class, 'logout']);
 });

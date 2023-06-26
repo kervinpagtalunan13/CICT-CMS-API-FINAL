@@ -14,7 +14,9 @@ class CurriculumRevision extends Model
         'version',
         'status',
         'metadata',
-        'curriculum_id'
+        'curriculum_id',
+        'increment_version',
+        'approve_by'
     ];
 
     protected $guarded = [
@@ -26,7 +28,7 @@ class CurriculumRevision extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function approveBy()
+    public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approve_by');
     }

@@ -26,6 +26,9 @@ class AuthController extends Controller
             if ($request->user()->status == 'i')
                 return response()->json(['message' => 'account is not available'], 401);
 
+            if (!$request->user()->is_approved)
+                return response()->json(['message' => 'account is not approve yet.'], 401);
+
             $authorize = [
                 'reviewer' => ['can_approve_revision', 'can_comment'],
 
@@ -52,6 +55,8 @@ class AuthController extends Controller
             'role' => $request->role,
             'department_id' => $request->departmentId,
         ]);
+
+        $user = User::with('profile', 'department')->find($user->id);
         return response()->json(['message' => 'user registration success', 'user' => $user]);
     }
 
